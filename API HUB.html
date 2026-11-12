@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>API HUB</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050816;--bg2:#0b1226;--fg:#e8ecf8;--mut:#8d98b8;--ac:#38bdf8;--ac2:#8b5cf6;--glass:rgba(255,255,255,.06);--bd:rgba(255,255,255,.12);box-sizing:border-box;color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--hi:color-mix(in srgb,var(--ac) 60%,#fff)}
+html{scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 "Space Grotesk","Vazirmatn",system-ui,sans-serif;overflow-x:hidden}
+[dir=rtl] body{font-family:"Vazirmatn","Space Grotesk",system-ui,sans-serif}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+header{direction:ltr;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:12px;padding:12px clamp(16px,4vw,48px);background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+.logo{font-weight:700;font-size:20px;letter-spacing:.04em;text-decoration:none;display:flex;align-items:center;gap:10px;direction:ltr}
+.logo img{height:38px;width:auto;border-radius:10px;display:block}
+.mark{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 200deg,var(--ac),var(--ac2),var(--ac));box-shadow:0 0 22px var(--ac);animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+nav{display:flex;gap:4px;align-items:center;margin-right:auto}
+nav a,.pill{padding:8px 12px;border-radius:999px;text-decoration:none;color:var(--mut);background:none;border:0}
+nav a:hover,.pill:hover{color:var(--fg);background:var(--glass)}
+.sw{display:flex;gap:6px}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd);padding:0}
+.dot[aria-pressed=true]{border-color:var(--fg);box-shadow:0 0 12px currentColor}
+.hero{position:relative;min-height:88vh;display:grid;place-items:center;text-align:center;padding:64px 20px;overflow:hidden;background:radial-gradient(60% 50% at 50% 30%,color-mix(in srgb,var(--glow,var(--ac2)) 70%,transparent),transparent),radial-gradient(40% 40% at 80% 70%,color-mix(in srgb,var(--ac) 22%,transparent),transparent)}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero>div{position:relative;max-width:880px}
+h1{font-size:clamp(40px,9vw,104px);line-height:1;margin:0 0 20px;font-weight:700;letter-spacing:-.03em;background:linear-gradient(180deg,#fff,var(--ac) 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+[dir=rtl] h1{letter-spacing:0;line-height:1.3;font-weight:800}
+.sub{color:var(--mut);font-size:clamp(16px,2.2vw,20px);max-width:620px;margin:0 auto 28px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{padding:13px 24px;border-radius:14px;border:1px solid var(--bd);background:var(--glass);text-decoration:none;backdrop-filter:blur(10px);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.p{background:linear-gradient(135deg,var(--ac),var(--ac2));border:0;color:var(--on,#fff);font-weight:600;box-shadow:0 8px 32px color-mix(in srgb,var(--ac) 40%,transparent)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:44px auto 0;max-width:760px}
+.stat{padding:16px;border:1px solid var(--bd);border-radius:16px;background:var(--glass)}
+.stat b{display:block;font-size:28px}
+.stat span{color:var(--mut);font-size:13px}
+section{padding:72px clamp(16px,4vw,48px);max-width:1240px;margin:auto}
+h2{font-size:clamp(28px,4vw,44px);margin:0 0 8px;letter-spacing:-.02em}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+input,select{background:var(--glass);border:1px solid var(--bd);color:var(--fg);padding:11px 14px;border-radius:12px;font:inherit}
+input{flex:1;min-width:200px}
+select option{color:#000}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{padding:7px 14px;border-radius:999px;border:1px solid var(--bd);background:none}
+.chip[aria-pressed=true]{background:var(--ac);color:var(--on,#fff);border-color:var(--ac);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.card{position:relative;padding:24px;border-radius:22px;border:1px solid var(--bd);background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.02));backdrop-filter:blur(14px);transition:transform .15s,border-color .2s;transform-style:preserve-3d;display:flex;flex-direction:column;gap:10px}
+.card:hover{border-color:var(--ac)}
+.card h3{margin:0;font-size:21px}
+.card p{margin:0;color:var(--mut);flex:1}
+.cat{color:var(--hi);font-size:13px}
+.price{font-size:24px;font-weight:700}
+.price small{font-size:13px;color:var(--mut);font-weight:400}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{font-size:12px;padding:3px 10px;border-radius:999px;border:1px dashed var(--mut);color:var(--mut)}
+.empty{grid-column:1/-1;text-align:center;padding:48px;border:1px dashed var(--bd);border-radius:20px;color:var(--mut)}
+dialog{max-width:640px;width:calc(100% - 32px);background:var(--bg2);color:var(--fg);border:1px solid var(--bd);border-radius:24px;padding:28px}
+dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(4px)}
+pre{direction:ltr;text-align:left;background:#02040c;color:#cde;border:1px solid var(--bd);border-radius:14px;padding:14px;overflow-x:auto;font:13px/1.6 ui-monospace,Menlo,monospace;margin:12px 0}
+.toast{position:fixed;inset-inline:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));max-width:420px;margin-inline:auto;padding:14px 18px;border-radius:14px;background:var(--bg2);border:1px solid var(--ac);box-shadow:0 12px 40px #0008;opacity:0;transform:translateY(20px);pointer-events:none;transition:.3s;z-index:50}
+.toast.on{opacity:1;transform:none}
+details{border:1px solid var(--bd);border-radius:14px;padding:14px 18px;background:var(--glass);margin-bottom:10px}summary{cursor:pointer;font-weight:600}details p{color:var(--mut);margin:10px 0 0}
+.fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:0;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--on,#fff);display:grid;place-items:center;box-shadow:0 8px 28px color-mix(in srgb,var(--ac) 45%,transparent);z-index:30}
+.chat{position:fixed;left:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:min(370px,calc(100vw - 32px));height:min(540px,70vh);display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--bd);border-radius:22px;box-shadow:0 20px 60px #000a;z-index:30;overflow:hidden}
+.chat[hidden]{display:none}
+.ch-h{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd)}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:92%;padding:10px 13px;border-radius:16px;background:var(--glass);border:1px solid var(--bd)}
+.msg.u{align-self:flex-end;background:var(--ac);color:var(--on,#fff);border:0}
+.mini{margin-top:8px;padding:10px;border:1px solid var(--bd);border-radius:12px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.mini .sp{direction:ltr;text-align:left;font:12px ui-monospace,Menlo,monospace;color:var(--hi)}
+.mini span{color:var(--hi)}
+.qc{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px}
+.ch-f{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--bd)}
+.ch-f input{min-width:0}
+.ch-f .btn{padding:8px 16px}
+footer{padding:40px 20px;text-align:center;color:var(--mut);border-top:1px solid var(--bd)}
+[dir=rtl] header nav,[dir=rtl] header .pill{direction:rtl}
+@media(max-width:720px){nav a{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <nav><a href="#market" data-i="nav_market"></a><a href="#status" data-i="nav_status"></a></nav>
+  <div class="sw" id="themes" role="group" aria-label="Theme"></div>
+  <button class="pill" id="cartbtn" aria-label="Cart">🛒 <span id="cartn">0</span></button>
+  <button class="pill" id="lang" aria-label="Language">فارسی</button>
+  <a class="logo" href="#top" aria-label="API HUB"><img src="data:image/webp;base64,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" alt="" width="60" height="38"><b>API HUB</b></a>
+</header>
+
+<main id="top">
+<div class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div>
+    <h1 data-i="h1"></h1>
+    <p class="sub" data-i="sub"></p>
+    <div class="btns">
+      <a class="btn p" href="#market" data-i="b1"></a>
+      <button class="btn" id="build" data-i="b2"></button>
+      <button class="btn" id="docs" data-i="b3"></button>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</div>
+
+<section id="market">
+  <h2 data-i="mk"></h2>
+  <p class="sub" style="margin:0" data-i="mk_s"></p>
+  <div class="tools">
+    <input id="q" type="search" data-ph="search" aria-label="Search">
+    <select id="sort" aria-label="Sort"></select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid" aria-live="polite"></div>
+</section>
+
+<section id="status">
+  <h2 data-i="st"></h2>
+  <p class="sub" style="margin:0 0 20px" data-i="st_s"></p>
+  <div class="grid" id="stlist"></div>
+</section>
+<section id="trust"><h2 data-i="tr"></h2><p class="sub" style="margin:0 0 20px" data-i="tr_s"></p><div class="grid" id="trlist"></div></section>
+<section id="how"><h2 data-i="hw"></h2><div class="grid" id="steps"></div></section>
+<section id="reviews"><h2 data-i="rv"></h2><div class="grid"><div class="empty" data-i="rv_e"></div></div></section>
+<section id="faq"><h2 data-i="fq"></h2><div id="faqlist"></div></section>
+</main>
+<footer><div data-i="foot"></div><p id="by" style="color:var(--fg);font-weight:600"></p></footer>
+
+<button class="fab" id="fab" aria-label="Chat" aria-expanded="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></button>
+<div class="chat" id="chat" hidden role="dialog" aria-label="Assistant"><div class="ch-h"><b data-i="ch_t"></b><button class="pill" id="chx" aria-label="Close">✕</button></div><div class="msgs" id="msgs" aria-live="polite"></div><div class="qc" id="qchips"></div><div class="ch-f"><input id="cin" aria-label="Message"><button class="btn p" id="send" data-i="ch_send"></button></div></div>
+<dialog id="dlg"><div id="dbody"></div><div class="btns" style="margin-top:16px"><button class="btn" id="close" data-i="close"></button></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const THEMES={"API HUB":["#171717","#061A14","#A3121B","#6e0d14","#f1ece9","#a89d98","#0d4a37"],"Midnight Blue":["#050816","#0b1226","#38bdf8","#8b5cf6","#e8ecf8","#8d98b8"],"Cyber Purple":["#0a0516","#150b26","#c084fc","#ec4899","#f0e8fa","#a08db8"],"Emerald":["#03110c","#07201a","#34d399","#06b6d4","#e6f8f0","#86b8a4"],"Crimson":["#140508","#240b10","#f43f5e","#fb923c","#faeaec","#b88d93"],"Arctic Cyan":["#031318","#08242c","#22d3ee","#60a5fa","#e6f8fb","#8dbac4"],"Pure Black":["#000","#0a0a0a","#e5e5e5","#a3a3a3","#fafafa","#8a8a8a"],"Light Luxury":["#f6f3ee","#ffffff","#a16207","#6d28d9","#1b1b22","#6b6b78"]};
+const CATS=["ai","data","dev","fa","valid","sec","web","vision","date","auto"];
+const T={en:{nav_market:"Marketplace",nav_status:"Status",h1:"BUILD BEYOND LIMITS.",sub:"Discover, integrate, and scale with powerful APIs built for the next generation of technology.",b1:"Explore APIs",b2:"Start Building",b3:"View Documentation",mk:"API marketplace",mk_s:"Six launch products. Pricing is per month, in Toman.",search:"Search APIs",st:"Integration status",st_s:"What works in this front-end, and what needs your backend.",close:"Close",buy:"Purchase",details:"Details",none:"No APIs match your filters. Clear the search or pick another category.",noRate:"No ratings yet",free:"/ month",ch_t:"API assistant",ch_ph:"Ask about APIs and prices",ch_send:"Send",add:"Add to cart",cart:"Cart",cart_e:"Your cart is empty. Add an API from the marketplace.",total:"Total",checkout:"Checkout",rm:"Remove",added:"Added to cart",inCart:"Already in your cart",greet:"Hi! I can help you find an API, compare prices, or add one to your cart. What do you need?",cheap:"Our most affordable APIs:",all:"Here are all our APIs:",budget:n=>`APIs up to ${n} Toman:`,none:"No API fits that budget. Here are the most affordable ones:",found:"Here’s what I found:",fb:"I can search by name, category, or budget. Try “cheapest API”, “vision”, or “under 100,000 Toman”.",cartOpen:"Opening your cart.",qc:["Cheapest API","Show all APIs","Under 100,000 Toman"],tr:"Why you can buy with confidence",tr_s:"What we promise every customer.",hw:"How it works",rv:"Customer reviews",rv_e:"No reviews yet. Reviews from verified buyers will appear here after the first purchases.",fq:"Frequently asked questions",by:"Built by Abolfazl Mirzaei",
+tl:[["Your API key arrives instantly","The moment your payment is confirmed, your API key is issued and appears in your dashboard."],["Money-back guarantee","If an API doesn’t work as documented and we can’t fix it, we refund your payment."],["Verified, secure payment","Every payment is checked on our server through the payment gateway before access is activated."]],
+steps:[["Choose an API","Browse the marketplace and open the details of the API you need."],["Pay securely","Pay in Toman through the payment gateway."],["Start building","Your API key is issued instantly. Copy the example request and send it."]],
+faq:[["When do I get my API key?","Right after your payment is verified. The key appears in your dashboard."],["What if the API doesn’t work as described?","Contact us. If we can’t fix it, we refund your payment."],["How do I pay?","In Toman, through the payment gateway at checkout."]],foot:"API HUB. Front-end build: backend integrations are marked where required.",
+cat:{ai:"Artificial Intelligence",data:"Data & Analytics",dev:"Developer Utilities",fa:"Persian Language Tools",valid:"Validation & Verification",sec:"Security",web:"Web Data",vision:"Computer Vision",date:"Date & Calendar",auto:"Automation"},all:"All",sorts:["Newest","Price: low to high","Price: high to low","Name"],
+stats:["Available APIs","Total API requests","Active developers","Platform uptime"],pend:"Awaiting backend",
+buildMsg:"Registration and login need the auth backend (Worker + database). Not connected yet.",buyMsg:"Checkout needs a configured payment gateway and server-side verification. Not connected yet.",
+ep:"Endpoint",ex:"Example request",auth:"Authentication: API key in the X-API-Key header. Rate limits are set by the backend.",copy:"Copy",copied:"Copied",
+docsT:"Documentation",docsB:"Docs are generated from each product’s endpoint. Open a product’s Details to see its request example.",
+stl:[["Marketplace search, filters, sorting","Working"],["Product pages and code examples","Working"],["Theme and language, saved locally","Working"],["Statistics, accounts, API keys","Needs backend"],["Payments and activation","Needs gateway"]]},
+fa:{nav_market:"بازارچه",nav_status:"وضعیت",h1:"فراتر از محدودیت‌ها بساز.",sub:"با قدرتمندترین APIها، نسل بعدی فناوری را بساز.",b1:"کاوش APIها",b2:"شروع ساخت",b3:"مشاهده مستندات",mk:"بازارچه API",mk_s:"شش محصول اولیه. قیمت‌ها ماهانه و به تومان است.",search:"جست‌وجوی API",st:"وضعیت یکپارچه‌سازی",st_s:"چه بخش‌هایی در این رابط کار می‌کنند و چه بخش‌هایی به بک‌اند نیاز دارند.",close:"بستن",buy:"خرید",details:"جزئیات",none:"هیچ APIای با فیلترهای شما پیدا نشد. جست‌وجو را پاک کنید یا دسته دیگری انتخاب کنید.",noRate:"هنوز امتیازی ثبت نشده",free:"/ ماه",ch_t:"دستیار API",ch_ph:"دربارهٔ APIها و قیمت‌ها بپرس",ch_send:"ارسال",add:"افزودن به سبد",cart:"سبد خرید",cart_e:"سبد خرید شما خالی است. یک API از بازارچه اضافه کنید.",total:"جمع کل",checkout:"پرداخت",rm:"حذف",added:"به سبد خرید اضافه شد",inCart:"این API در سبد شما هست",greet:"سلام! می‌توانم در پیدا کردن API، مقایسهٔ قیمت و افزودن آن به سبد خرید کمکت کنم. چه چیزی لازم داری؟",cheap:"ارزان‌ترین APIهای ما:",all:"همهٔ APIهای ما:",budget:n=>`APIهای تا سقف ${n} تومان:`,none:"APIای با این بودجه پیدا نشد. ارزان‌ترین‌ها این‌ها هستند:",found:"این چیزی است که پیدا کردم:",fb:"می‌توانم بر اساس نام، دسته یا بودجه جست‌وجو کنم. مثلاً بنویس «ارزان‌ترین API»، «بینایی» یا «زیر ۱۰۰ هزار تومان».",cartOpen:"سبد خرید را باز می‌کنم.",qc:["ارزان‌ترین API","همه APIها","زیر ۱۰۰ هزار تومان"],tr:"چرا با خیال راحت خرید کنید",tr_s:"تعهدی که به هر مشتری می‌دهیم.",hw:"چطور کار می‌کند",rv:"نظرات مشتریان",rv_e:"هنوز نظری ثبت نشده است. بعد از اولین خریدها، نظر خریداران تأییدشده اینجا نمایش داده می‌شود.",fq:"پرسش‌های متداول",by:"سازنده این سایت: ابوالفضل میرزایی",
+tl:[["کلید API همان لحظه می‌رسد","به محض تأیید پرداخت، کلید API شما صادر می‌شود و در داشبوردتان نمایش داده می‌شود."],["ضمانت بازگشت وجه","اگر API مطابق مستندات کار نکند و نتوانیم مشکل را برطرف کنیم، پول شما را برمی‌گردانیم."],["پرداخت امن و تأییدشده","هر پرداخت پیش از فعال‌سازی دسترسی، از طریق درگاه پرداخت و روی سرور ما بررسی می‌شود."]],
+steps:[["API را انتخاب کنید","در بازارچه بگردید و جزئیات API مورد نظرتان را باز کنید."],["امن پرداخت کنید","با درگاه پرداخت و به تومان پرداخت کنید."],["شروع به ساخت کنید","کلید API همان لحظه صادر می‌شود. نمونه درخواست را کپی و ارسال کنید."]],
+faq:[["کلید API را کی دریافت می‌کنم؟","بلافاصله بعد از تأیید پرداخت. کلید در داشبورد شما نمایش داده می‌شود."],["اگر API طبق توضیحات کار نکرد چه؟","با ما تماس بگیرید. اگر نتوانیم مشکل را حل کنیم، پولتان را برمی‌گردانیم."],["چطور پرداخت کنم؟","به تومان و از طریق درگاه پرداخت در مرحلهٔ خرید."]],foot:"API HUB. نسخه رابط کاربری: بخش‌های نیازمند بک‌اند مشخص شده‌اند.",
+cat:{ai:"هوش مصنوعی",data:"داده و تحلیل",dev:"ابزارهای توسعه‌دهنده",fa:"ابزارهای زبان فارسی",valid:"اعتبارسنجی و تأیید",sec:"امنیت",web:"داده وب",vision:"بینایی ماشین",date:"تاریخ و تقویم",auto:"اتوماسیون"},all:"همه",sorts:["جدیدترین","قیمت: کم به زیاد","قیمت: زیاد به کم","نام"],
+stats:["APIهای موجود","کل درخواست‌ها","توسعه‌دهندگان فعال","آپتایم پلتفرم"],pend:"منتظر بک‌اند",
+buildMsg:"ثبت‌نام و ورود به بک‌اند احراز هویت (Worker و پایگاه داده) نیاز دارد. هنوز متصل نیست.",buyMsg:"پرداخت به درگاه پرداخت پیکربندی‌شده و تأیید سمت سرور نیاز دارد. هنوز متصل نیست.",
+ep:"نشانی",ex:"نمونه درخواست",auth:"احراز هویت: کلید API در هدر X-API-Key. محدودیت نرخ توسط بک‌اند تعیین می‌شود.",copy:"کپی",copied:"کپی شد",
+docsT:"مستندات",docsB:"مستندات از نشانی هر محصول ساخته می‌شود. برای دیدن نمونه درخواست، جزئیات هر محصول را باز کنید.",
+stl:[["جست‌وجو، فیلتر و مرتب‌سازی بازارچه","فعال"],["صفحه محصول و نمونه کد","فعال"],["تم و زبان، ذخیره در مرورگر","فعال"],["آمار، حساب کاربری، کلید API","نیازمند بک‌اند"],["پرداخت و فعال‌سازی","نیازمند درگاه"]]}};
+const P=[
+{id:"ai-text",c:"ai",p:99000,n:{en:"AI Text API",fa:"API متن هوشمند"},d:{en:"Generate, summarize, and classify text through one endpoint.",fa:"تولید، خلاصه‌سازی و دسته‌بندی متن با یک نقطه اتصال."},m:"POST",e:"/v1/ai/text",b:'{"task":"summarize","text":"..."}'},
+{id:"data",c:"data",p:149000,n:{en:"Data API",fa:"API داده"},d:{en:"Query and aggregate structured datasets with filters.",fa:"پرس‌وجو و تجمیع مجموعه‌داده‌های ساختاریافته با فیلتر."},m:"GET",e:"/v1/data/query?dataset=sales&limit=10"},
+{id:"utility",c:"dev",p:79000,n:{en:"Utility API",fa:"API ابزارها"},d:{en:"Everyday developer helpers: encode, hash, format, and convert.",fa:"ابزارهای روزمره توسعه‌دهندگان: کدگذاری، هش، قالب‌بندی و تبدیل."},m:"POST",e:"/v1/utils/convert",b:'{"from":"json","to":"yaml","input":"{}"}'},
+{id:"vision",c:"vision",p:199000,n:{en:"Vision API",fa:"API بینایی"},d:{en:"Detect objects and read text from images.",fa:"تشخیص اشیا و خواندن متن از تصاویر."},m:"POST",e:"/v1/vision/analyze",b:'{"image_url":"https://..."}'},
+{id:"web-data",c:"web",p:129000,n:{en:"Web Data API",fa:"API داده وب"},d:{en:"Fetch clean, structured content from public web pages.",fa:"دریافت محتوای تمیز و ساختاریافته از صفحات عمومی وب."},m:"GET",e:"/v1/web/extract?url=https://example.com"},
+{id:"security",c:"sec",p:119000,n:{en:"Security API",fa:"API امنیت"},d:{en:"Check passwords, tokens, and URLs against known risks.",fa:"بررسی رمز عبور، توکن و نشانی‌ها در برابر ریسک‌های شناخته‌شده."},m:"POST",e:"/v1/security/check",b:'{"type":"url","value":"https://..."}'}];
+const $=s=>document.querySelector(s);
+const S={lang:"en",theme:"API HUB",cat:"all",q:"",sort:0};
+try{const a=JSON.parse(localStorage.getItem("apihub")||"{}");if(T[a.lang])S.lang=a.lang;if(THEMES[a.theme])S.theme=a.theme}catch(e){}
+const save=()=>{try{localStorage.setItem("apihub",JSON.stringify({lang:S.lang,theme:S.theme}))}catch(e){}};
+const L=()=>T[S.lang];
+const num=n=>n.toLocaleString(S.lang==="fa"?"fa-IR":"en-US");
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),3600)};
+function applyTheme(){const v=THEMES[S.theme],r=document.documentElement.style;["--bg","--bg2","--ac","--ac2","--fg","--mut"].forEach((k,i)=>r.setProperty(k,v[i]));r.setProperty("--glow",v[6]||v[3]);{const h=v[2].slice(1),Lm=(parseInt(h.slice(0,2),16)*299+parseInt(h.slice(2,4),16)*587+parseInt(h.slice(4,6),16)*114)/1000;r.setProperty("--on",Lm>150?"#04101c":"#fff")}const light=S.theme==="Light Luxury";r.setProperty("--glass",light?"rgba(0,0,0,.04)":"rgba(255,255,255,.06)");r.setProperty("--bd",light?"rgba(0,0,0,.14)":"rgba(255,255,255,.12)");r.colorScheme=light?"light":"dark";
+ $("#themes").innerHTML=Object.keys(THEMES).map(k=>`<button class="dot" style="background:${THEMES[k][2]};color:${THEMES[k][2]}" aria-label="${k}" aria-pressed="${k===S.theme}" data-t="${k}"></button>`).join("")}
+function render(){const l=L(),h=document.documentElement;h.lang=S.lang;h.dir=S.lang==="fa"?"rtl":"ltr";
+ document.querySelectorAll("[data-i]").forEach(e=>e.textContent=l[e.dataset.i]);
+ $("#q").placeholder=l.search;$("#lang").textContent=S.lang==="fa"?"English":"فارسی";
+ $("#sort").innerHTML=l.sorts.map((s,i)=>`<option value="${i}" ${i===S.sort?"selected":""}>${s}</option>`).join("");
+ $("#chips").innerHTML=["all",...CATS].map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===S.cat}">${c==="all"?l.all:l.cat[c]}</button>`).join("");
+ $("#stats").innerHTML=[num(P.length),"—","—","—"].map((v,i)=>`<div class="stat"><b>${v}</b><span>${l.stats[i]}${i?` · ${l.pend}`:""}</span></div>`).join("");
+ $("#stlist").innerHTML=l.stl.map(([a,b])=>`<div class="card"><h3>${a}</h3><span class="badge">${b}</span></div>`).join("");
+ $("#trlist").innerHTML=l.tl.map(([a,b])=>`<div class="card"><h3>${a}</h3><p>${b}</p></div>`).join("");
+ $("#steps").innerHTML=l.steps.map(([a,b],i)=>`<div class="card"><span class="cat">${num(i+1)}</span><h3>${a}</h3><p>${b}</p></div>`).join("");
+ $("#faqlist").innerHTML=l.faq.map(([a,b])=>`<details><summary>${a}</summary><p>${b}</p></details>`).join("");
+ $("#by").textContent=l.by;
+ $("#cin").placeholder=l.ch_ph;$("#qchips").innerHTML=l.qc.map(q=>`<button class="chip" data-q="${q}">${q}</button>`).join("");cartCount();
+ grid();document.title="API HUB"}
+function grid(){const l=L();let r=P.filter(p=>(S.cat==="all"||p.c===S.cat)&&(p.n[S.lang]+p.n.en+p.d[S.lang]).toLowerCase().includes(S.q.toLowerCase()));
+ r=r.slice();if(S.sort===1)r.sort((a,b)=>a.p-b.p);if(S.sort===2)r.sort((a,b)=>b.p-a.p);if(S.sort===3)r.sort((a,b)=>a.n.en.localeCompare(b.n.en));
+ $("#grid").innerHTML=r.length?r.map(p=>`<article class="card"><span class="cat">${l.cat[p.c]}</span><h3>${p.n[S.lang]}</h3><p>${p.d[S.lang]}</p><div class="price">${num(p.p)} <small>${S.lang==="fa"?"تومان":"Toman"} ${l.free}</small></div><div class="row"><span class="badge">${l.noRate}</span><span class="badge">${p.m}</span></div><div class="row"><button class="btn p" data-d="${p.id}">${l.details}</button><button class="btn" data-add="${p.id}">${l.add}</button></div></article>`).join(""):`<div class="empty">${l.none}</div>`}
+function curl(p){return`curl -X ${p.m} "https://api.example.com${p.e}" \\\n  -H "X-API-Key: YOUR_API_KEY"`+(p.b?` \\\n  -H "Content-Type: application/json" \\\n  -d '${p.b}'`:"")}
+function open(html){$("#dbody").innerHTML=html;$("#dlg").showModal()}
+function detail(id){const p=P.find(x=>x.id===id),l=L(),c=curl(p);
+ open(`<h2>${p.n[S.lang]}</h2><p>${p.d[S.lang]}</p><p><b>${l.ep}:</b> <code dir="ltr">${p.m} ${p.e.split("?")[0]}</code></p><p>${l.auth}</p><b>${l.ex}</b><pre id="code"></pre><button class="btn" id="cp">${l.copy}</button>`);
+ $("#code").textContent=c;$("#cp").onclick=async()=>{try{await navigator.clipboard.writeText(c);toast(l.copied)}catch(e){toast(c)}}}
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;
+ if(t.dataset.t){S.theme=t.dataset.t;save();applyTheme()}
+ else if(t.dataset.c){S.cat=t.dataset.c;render()}
+ else if(t.dataset.d)detail(t.dataset.d);
+ else if(t.dataset.add)addCart(t.dataset.add);
+ else if(t.dataset.rm){cart=cart.filter(i=>i!==t.dataset.rm);saveCart();cartView()}
+ else if(t.dataset.q)ask(t.dataset.q);
+ else if(t.id==="fab"||t.id==="chx")chatToggle(t.id==="fab"?undefined:false);
+ else if(t.id==="send"){ask($("#cin").value);$("#cin").value=""}
+ else if(t.id==="cartbtn")cartView();
+ else if(t.id==="checkout")toast(L().buyMsg);
+ else if(t.id==="lang"){S.lang=S.lang==="en"?"fa":"en";save();$("#msgs").innerHTML="";render();if(!$("#chat").hidden)say(L().greet,"b")}
+ else if(t.id==="build")toast(L().buildMsg);
+ else if(t.id==="docs")open(`<h2>${L().docsT}</h2><p>${L().docsB}</p>`);
+ else if(t.id==="close")$("#dlg").close()});
+$("#q").oninput=e=>{S.q=e.target.value;grid()};
+$("#sort").onchange=e=>{S.sort=+e.target.value;grid()};
+$("#grid").addEventListener("pointermove",e=>{if(matchMedia("(prefers-reduced-motion:reduce)").matches||e.pointerType!=="mouse")return;const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(700px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`});
+$("#grid").addEventListener("pointerout",e=>{const c=e.target.closest(".card");if(c)c.style.transform=""});
+// Network canvas
+(function(){const cv=$("#net"),x=cv.getContext("2d"),rm=matchMedia("(prefers-reduced-motion:reduce)").matches;let w,h,N=[],mx=-1e4,my=-1e4;
+ function size(){const d=Math.min(devicePixelRatio||1,2);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*d;cv.height=h*d;x.setTransform(d,0,0,d,0,0);
+  N=Array.from({length:Math.min(140,Math.round(w*h/6800))},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:.8+Math.random()*.9}))}
+ function draw(){x.clearRect(0,0,w,h);const ac=getComputedStyle(document.documentElement).getPropertyValue("--hi").trim()||"#ff6b73";
+  for(const a of N){if(!rm){a.x=(a.x+a.vx+w)%w;a.y=(a.y+a.vy+h)%h}
+   const d=Math.hypot(mx-a.x,my-a.y);if(d<170){const k=.018*(1-d/170);a.x+=(mx-a.x)*k;a.y+=(my-a.y)*k}a.cnt=0}
+  x.strokeStyle=ac;x.lineWidth=1;
+  for(let i=0;i<N.length;i++){const a=N[i];for(let j=i+1;j<N.length&&a.cnt<3;j++){const b=N[j];if(b.cnt>=3)continue;const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<105){x.globalAlpha=(1-d/105)*.35;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();a.cnt++;b.cnt++}}}
+  let m=0;for(const a of N){const d=Math.hypot(mx-a.x,my-a.y);if(d<150&&m<5){m++;x.globalAlpha=(1-d/150)*.7;x.beginPath();x.moveTo(mx,my);x.lineTo(a.x,a.y);x.stroke()}}
+  x.fillStyle=ac;x.globalAlpha=.85;for(const a of N){x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill()}
+  if(!rm)requestAnimationFrame(draw)}
+ addEventListener("pointermove",e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+ document.addEventListener("pointerleave",()=>{mx=-1e4;my=-1e4});
+ addEventListener("resize",()=>{size();if(rm)draw()});size();draw()})();
+let cart=[];try{cart=JSON.parse(localStorage.getItem("apihub-cart")||"[]").filter(id=>P.some(p=>p.id===id))}catch(e){}
+function cartCount(){$("#cartn").textContent=num(cart.length)}
+function saveCart(){try{localStorage.setItem("apihub-cart",JSON.stringify(cart))}catch(e){}cartCount()}
+const pr=p=>num(p.p)+" "+(S.lang==="fa"?"تومان":"Toman");
+function addCart(id){const l=L();if(cart.includes(id))return toast(l.inCart);cart.push(id);saveCart();toast(l.added)}
+function cartView(){const l=L(),it=cart.map(id=>P.find(p=>p.id===id));
+ open(`<h2>${l.cart}</h2>`+(it.length?it.map(p=>`<div class="row" style="justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd)"><span>${p.n[S.lang]}<br><small>${pr(p)}</small></span><button class="btn" data-rm="${p.id}">${l.rm}</button></div>`).join("")+`<p><b>${l.total}: ${pr({p:it.reduce((a,p)=>a+p.p,0)})}</b></p><button class="btn p" id="checkout">${l.checkout}</button>`:`<p class="sub" style="margin:16px 0">${l.cart_e}</p>`))}
+function say(c,who,html){const m=document.createElement("div");m.className="msg "+who;if(html)m.innerHTML=c;else m.textContent=c;$("#msgs").appendChild(m);$("#msgs").scrollTop=1e9}
+const mini=p=>`<div class="mini"><b>${p.n[S.lang]}</b><span>${pr(p)}</span><div class="sp">${p.m} ${p.e.split("?")[0]}</div><div>${p.d[S.lang]}</div><div class="row"><button class="chip" data-d="${p.id}">${L().details}</button><button class="chip" data-add="${p.id}">${L().add}</button></div></div>`;
+function ask(q){q=q.trim();if(!q)return;say(q,"u");const l=L(),s=q.toLowerCase().replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)),has=a=>a.some(k=>s.includes(k));
+ const K={"web-data":["web","وب"],"ai-text":["text","متن","هوش"],"data":["data","داده"],"utility":["util","ابزار"],"vision":["vision","تصویر","بینایی","image"],"security":["secur","امنیت"]};
+ let ids=P.filter(p=>has(K[p.id]||[])).map(p=>p.id);if(ids.includes("web-data"))ids=ids.filter(i=>i!=="data");
+ const m=s.replace(/,|٬/g,"").match(/\d+/);let t,list=[];
+ if(has(["cart","سبد"])){t=l.cartOpen;setTimeout(cartView,300)}
+ else if(ids.length){t=l.found;list=ids}
+ else if(m){let n=+m[0];if(n<10000)n*=1000;list=P.filter(p=>p.p<=n).sort((a,b)=>a.p-b.p).map(p=>p.id);t=list.length?l.budget(num(n)):l.none;if(!list.length)list=[...P].sort((a,b)=>a.p-b.p).slice(0,2).map(p=>p.id)}
+ else if(has(["cheap","ارزان","قیمت کم","کمترین","lowest"])){t=l.cheap;list=[...P].sort((a,b)=>a.p-b.p).slice(0,2).map(p=>p.id)}
+ else if(has(["all","list","همه","لیست"])){t=l.all;list=P.map(p=>p.id)}
+ else t=l.fb;
+ say(t+list.map(i=>mini(P.find(p=>p.id===i))).join(""),"b",1)}
+function chatToggle(v){const c=$("#chat");c.hidden=v===undefined?!c.hidden:!v;$("#fab").setAttribute("aria-expanded",String(!c.hidden));if(!c.hidden){if(!$("#msgs").children.length)say(L().greet,"b");$("#cin").focus()}}
+$("#cin").addEventListener("keydown",e=>{if(e.key==="Enter"){ask(e.target.value);e.target.value=""}});
+applyTheme();render();
+</script>
+</body>
+</html>
